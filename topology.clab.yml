@@ -1,0 +1,29 @@
+name: lab-topology
+
+topology:
+  nodes:
+    r1-nokia:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:latest
+
+    r2-mikrotik:
+      kind: vr-ros
+      image: vrnetlab/vr-routeros:6.47.9
+
+    client1:
+      kind: linux
+      image: alpine:latest
+
+    client2:
+      kind: linux
+      image: alpine:latest
+
+    proxmox-vm:
+      kind: linux
+      image: ubuntu:22.04
+
+  links:
+    - endpoints: ["r2-mikrotik:ether1", "r1-nokia:e1-1"]
+    - endpoints: ["r2-mikrotik:ether2", "client1:eth1"]
+    - endpoints: ["r1-nokia:e1-2", "client2:eth1"]
+    - endpoints: ["r1-nokia:e1-3", "proxmox-vm:eth1"]
